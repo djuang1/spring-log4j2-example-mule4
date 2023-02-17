@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+   <Appenders>
+      <Console name="Console" target="SYSTEM_OUT">
+         <PatternLayout pattern="%-5p %d [%t] %c: %m%n" />
+      </Console>
+      <RollingFile name="RollingFile_INFO" fileName="/Users/djuang/${sys:app.name}_INFO.log" filePattern="/Users/djuang/Common-Util-%d{yyyy-MM-dd}-INFO-%i.log">
+
+         <PatternLayout>
+            <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+         </PatternLayout>
+         <Policies></Policies>
+      </RollingFile>
+      <!-- This will create log files based on ERROR -->
+      <RollingFile name="RollingFile_ERROR" fileName="/Users/djuang/${sys:app.name}_ERROR.log" filePattern="/Users/djuang/Common-Util-%d{yyyy-MM-dd}-ERROR-%i.log">
+
+         <PatternLayout>
+            <pattern>%d %p %C{1.} [%t] %m%n</pattern>
+         </PatternLayout>
+         <Policies></Policies>
+
+      </RollingFile>
+   </Appenders>
+   <Loggers>
+      <AsyncLogger name="org.mule.service.http.impl.service.HttpMessageLogger" level="INFO"/>
+      <AsyncLogger name="org.mule.service.http" level="INFO"/>
+      <AsyncLogger name="org.mule.extension.http" level="INFO"/>
+
+      <!-- Mule logger -->
+      <AsyncLogger name="org.mule.runtime.core.internal.processor.LoggerMessageProcessor" level="INFO"/>
+      <!-- Reduce startup noise -->
+      <AsyncLogger name="org.springframework.beans.factory" level="INFO" />
+      <!-- Mule classes -->
+      <AsyncLogger name="com.mulesoft" level="INFO" />
+
+      <AsyncRoot>
+         <AppenderRef ref="Console" level="ALL" />
+         <AppenderRef ref="RollingFile_ERROR" level="ERROR" />
+         <AppenderRef ref="RollingFile_INFO" level="INFO" />
+      </AsyncRoot>
+   </Loggers>
+</Configuration>
